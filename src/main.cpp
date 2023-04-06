@@ -232,5 +232,6 @@ int main(void)
     UnloadTexture(platform1.texture);
     UnloadTexture(platform2.texture);
     UnloadTexture(platform3.texture);
+    UnloadFont(text);
     return 0;
 }
