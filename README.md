@@ -25,3 +25,7 @@ Run Terminal, goto the project dir, then type `make linux` and then type `./bin/
 * If it doesn't compile, then create a bin directory in the project dir
 
 * Make sure you launch it as `./bin/KeyMaster`, not `./KeyMaster`
+
+Background music from PlayOnLoop.com
+
+Licensed under Creative Commons by Attribution 4.0

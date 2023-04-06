@@ -30,7 +30,7 @@ int main(void)
     // Initialization
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "hdfsyu - KeyMaster");
-
+    InitAudioDevice();
     // TODO: Load resources / Initialize variables at this point
     Vector2 playerPos = {0.0f,350.0f};
     Vector2 playerSize = {64,64};
@@ -39,6 +39,11 @@ int main(void)
     const float gravity = 0.5f;
     const float groundLevel = 350.0f;
     bool isGrounded = true;
+    Music bgMusic = LoadMusicStream("res/snd/bgm.mp3");
+    bgMusic.looping = true;
+    Sound collectCoin = LoadSound("res/snd/coin.wav");
+    Sound jump = LoadSound("res/snd/jump.wav");
+    PlayMusicStream(bgMusic);
     Coin coin;
     floatingPlatform platform1;
     floatingPlatform platform2;
@@ -67,6 +72,8 @@ int main(void)
         //----------------------------------------------------------------------------------
         // TODO: Update variables / Implement example logic at this point
         //----------------------------------------------------------------------------------
+        UpdateMusicStream(bgMusic);
+        PlayMusicStream(bgMusic);
         if(IsKeyDown(KEY_RIGHT)){
           playerPos.x += 3.5f;
         }
@@ -76,6 +83,7 @@ int main(void)
         if(IsKeyDown(KEY_SPACE) && !isJumping && isGrounded){
           isJumping = true;
           velocityY = 12.0f; // Add upward force
+          PlaySound(jump);
         }
         if(isJumping){
           playerPos.y -= velocityY;
@@ -183,6 +191,7 @@ int main(void)
           score++;
           coin.coincol = {0,0,0,0};
           coin.texture = LoadTexture("");
+          PlaySound(collectCoin);
         }
         if(CheckCollisionRecs(player, door)){
             showEndMsg = true;
@@ -192,7 +201,7 @@ int main(void)
         platform2.platform = { platform2.pos.x, platform2.pos.y, 128, 16 };
         platform3.platform = { platform3.pos.x, platform3.pos.y, 128, 16 };
         player = {playerPos.x, playerPos.y, 64, 64};
-
+        //PlayMusicStream(bgMusic);
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
@@ -226,12 +235,14 @@ int main(void)
     // TODO: Unload all loaded resources at this point
 
     CloseWindow();        // Close window and OpenGL context
+    CloseAudioDevice();
     //--------------------------------------------------------------------------------------
     UnloadImage(playerImg);
     UnloadTexture(playerTex);
     UnloadTexture(platform1.texture);
     UnloadTexture(platform2.texture);
     UnloadTexture(platform3.texture);
+    UnloadMusicStream(bgMusic);
     UnloadFont(text);
     return 0;
 }
